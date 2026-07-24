@@ -1,0 +1,4 @@
+---
+bugfixes:
+  - workflow_job_template_node - Fixed condition node re-association not
+    reporting changed status for 200/201 API responses.
