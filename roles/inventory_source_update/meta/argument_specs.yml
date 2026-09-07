@@ -52,9 +52,8 @@ argument_specs:
         #       - vmware
         #       - satellite6
         #       - openstack
-        #       - rhv
-        #       - controller
-        #       - insights
+        #       - terraform
+        #       - ascender
         #     description: Unused in this role
         #   source_path:
         #     required: false

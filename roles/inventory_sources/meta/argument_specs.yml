@@ -39,9 +39,8 @@ argument_specs:
         #       - vmware
         #       - satellite6
         #       - openstack
-        #       - rhv
-        #       - controller
-        #       - insights
+        #       - terraform
+        #       - ascender
         #     description: The source to use for this group.
         #   source_path:
         #     required: false
