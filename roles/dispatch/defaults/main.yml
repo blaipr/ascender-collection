@@ -1,4 +1,10 @@
 ---
+# Role names the dispatcher skips. It lets a playbook drop one entry without
+# restating the whole list below, which is the only way to do it otherwise.
+# Tags already cover the command line case, --skip-tags; this covers the case
+# where the choice belongs in a playbook or an inventory instead.
+controller_configuration_dispatcher_exclude_roles: []
+
 controller_configuration_dispatcher_roles:
   - role: settings
     var: controller_settings

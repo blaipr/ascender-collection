@@ -55,6 +55,20 @@ Note that each item has three elements:
 
 It is possible to redefine this variable with a subset of roles or with different tags. In general we suggest keeping the same structure and perhaps just using a subset.
 
+To drop one or two roles without restating the whole list, name them in `controller_configuration_dispatcher_exclude_roles` instead:
+
+```yaml
+controller_configuration_dispatcher_exclude_roles:
+  - inventory_source_update
+  - job_launch
+```
+
+|Variable Name|Default Value|Required|Description|
+|:---|:---:|:---:|:---|
+|`controller_configuration_dispatcher_exclude_roles`|`[]`|no|Role names the dispatcher skips, matched against the `role` key of each entry above.|
+
+Tags already cover skipping a role from the command line, with `--skip-tags`. This variable covers the case where the choice belongs in a playbook or an inventory instead.
+
 ### Authentication
 
 |Variable Name|Default Value|Required|Description|Example|
