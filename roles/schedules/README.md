@@ -81,7 +81,7 @@ This also speeds up the overall role.
 |`new_name`|""|str|no|Setting this option will change the existing name (looked up via the name field).|
 |`description`|`False`|no|str|Description to use for the job template.|
 |`rrule`|""|yes|str|A value representing the schedules iCal recurrence rule. See the ctrliq.ascender.schedule plugin for help constructing this value|
-|`extra_data`|`{}`|no|dict|Extra vars for the job template. Only allowed if prompt on launch|
+|`extra_data`|`{}`|no|dict|Extra vars for the job template. Only allowed if prompt on launch Set to `{}` to clear it. Omitting this key leaves the existing data unchanged.|
 |`inventory`|""|no|str|Inventory applied to job template, assuming the job template prompts for an inventory.|
 |`credentials`|""|no|list|List of credentials applied as a prompt, assuming job template prompts for credentials|
 |`scm_branch`|Project default|no|str|Branch to use in the job run. Project default used if not set. Only allowed if `allow_override` set to true on project|

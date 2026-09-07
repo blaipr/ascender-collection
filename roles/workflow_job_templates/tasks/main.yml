@@ -10,7 +10,8 @@
         new_name: "{{ __workflow_loop_item.new_name | default(omit, true) }}"
         copy_from: "{{ __workflow_loop_item.copy_from | default(omit, true) }}"
         description: "{{ __workflow_loop_item.description | default(('' if controller_configuration_workflows_enforce_defaults else omit), true) }}"
-        extra_vars: "{{ __workflow_loop_item.extra_vars | default(({} if controller_configuration_workflows_enforce_defaults else omit), true) }}"
+        extra_vars: "{{ __workflow_loop_item.extra_vars if __workflow_loop_item.extra_vars is defined else ({} if
+          controller_configuration_workflows_enforce_defaults else omit) }}"
         allow_simultaneous: "{{ __workflow_loop_item.allow_simultaneous | default((false if controller_configuration_workflows_enforce_defaults else omit)) }}"
         organization: "{{ __workflow_loop_item.organization.name | default(__workflow_loop_item.organization | default(('' if controller_configuration_workflows_enforce_defaults
           else omit), true)) }}"

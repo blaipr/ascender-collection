@@ -91,7 +91,7 @@ This also speeds up the overall role.
 |`forks`|""|no|int|The number of parallel or simultaneous processes to use while executing the playbook.|
 |`limit`|""|no|str|A host pattern to further constrain the list of hosts managed or affected by the playbook|
 |`verbosity`|""|no|int|Control the output level Ansible produces as the playbook runs. 0 - Normal, 1 - Verbose, 2 - More Verbose, 3 - Debug, 4 - Connection Debug .|
-|`extra_vars`|""|no|dict|Specify extra_vars for the template.|
+|`extra_vars`|""|no|dict|Specify extra_vars for the template. Set to `{}` to clear them. Omitting this key leaves the existing variables unchanged.|
 |`job_tags`|""|no|str|Comma separated list of the tags to use for the job template.|
 |`force_handlers`|""|no|bool|Enable forcing playbook handlers to run even if a task fails.|
 |`skip_tags`|""|no|str|Comma separated list of the tags to skip for the job template.|
