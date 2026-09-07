@@ -1,10 +1,17 @@
 ---
 # list of dicts describing Controller workflow templates
 controller_workflows: []
-workflow_job_templates_secure_logging: "{{ controller_configuration_secure_logging | default('false') }}"
-controller_configuration_workflow_async_retries: "{{ controller_configuration_async_retries | default(50) }}"
-controller_configuration_workflow_async_delay: "{{ controller_configuration_async_delay | default(1) }}"
-controller_configuration_workflow__loop_delay: "{{ controller_configuration_loop_delay | default(0) }}"
+# The first fallback in each of these is the name this role used before it was
+# brought in line with the rest of the collection. It is kept so playbooks that
+# set the old name keep working; set the new name in anything written from now on.
+controller_configuration_workflow_job_templates_secure_logging: "{{ workflow_job_templates_secure_logging
+  | default(controller_configuration_secure_logging | default('false')) }}"
+controller_configuration_workflow_job_templates_async_retries: "{{ controller_configuration_workflow_async_retries
+  | default(controller_configuration_async_retries | default(50)) }}"
+controller_configuration_workflow_job_templates_async_delay: "{{ controller_configuration_workflow_async_delay
+  | default(controller_configuration_async_delay | default(1)) }}"
+controller_configuration_workflow_job_templates_loop_delay: "{{ controller_configuration_workflow__loop_delay
+  | default(controller_configuration_loop_delay | default(0)) }}"
 controller_configuration_async_dir:
 controller_configuration_workflows_enforce_defaults: "{{ controller_configuration_enforce_defaults | default(false) }}"
 ...
