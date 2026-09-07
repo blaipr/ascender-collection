@@ -134,7 +134,7 @@
         cas_async_delay: "{{ controller_configuration_workflow_async_delay }}"
         cas_async_retries: "{{ controller_configuration_workflow_async_retries }}"
         cas_job_async_results_item: "{{ __workflows_link_async_results_item }}"
-        cas_error_list_var_name: "controller_workflow_errors"
+        cas_error_list_var_name: "controller_workflows_errors"
 
   always:
     - name: add_workflows_schema | Cleanup async results files
