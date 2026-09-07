@@ -84,7 +84,7 @@ This also speeds up the overall role.
 |`node_type`|""|no|str|Role that this node plays in the mesh. Most likely Execution. Current options are 'execution'.|
 |`node_state`|""|no|str|Indicates the current life cycle stage of this instance. Current options are 'installed' and 'deprovisioning'.|
 |`listener_port`|""|no|int|Port that Receptor will listen for incoming connections on.|
-|`peers`|[]|no|list|List of peers to connect outbound to. Only configurable for hop and execution nodes.|
+|`peers`|[]|no|list|List of peers to connect outbound to. Only configurable for hop and execution nodes. Set to `[]` to remove all. Omitting this key leaves existing peers unchanged.|
 |`peers_from_control_nodes`|False|no|bool|If enabled, control plane nodes will automatically peer to this node.|
 
 ### Standard Instance Data Structure
