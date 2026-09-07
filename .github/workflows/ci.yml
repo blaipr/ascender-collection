@@ -129,9 +129,12 @@ jobs:
           persist-credentials: false
           path: ascender
 
+      # ascender moved its images to Python 3.14 and its requirements to Django 6.1.1.
+      # On 3.12 the django-guid marker still caps Django below 6.0 and the install
+      # cannot resolve, so this job needs 3.13 or newer.
       - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1  # v6.3.0
         with:
-          python-version: "3.12"
+          python-version: "3.13"
           cache: "pip"
           cache-dependency-path: |
             tests/unit/requirements.txt
