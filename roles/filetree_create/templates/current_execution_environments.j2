@@ -8,6 +8,11 @@ controller_execution_environments:
                      | default(ee.description) }}"
 {% if ee.summary_fields.organization.name is defined %}
     organization: "{{ ee.summary_fields.organization.name }}"
+{% else %}
+{#   A globally scoped execution environment has no organization, but object_diff
+     lists organization among the keys it requires and fails on an item that lacks
+     it. The lookup reduces an org-less API entry to an empty string, so match that. #}
+    organization: ""
 {% endif %}
     image: "{{ template_overrides_resources.ee[ee.name].image
                | default(template_overrides_global.ee.image)
