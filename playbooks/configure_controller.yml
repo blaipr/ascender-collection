@@ -9,6 +9,10 @@
           }}"
         ignore_files: [controller_config.yml.template]
         extensions: [yml]
+        # extensions alone is not a filter: include_vars fails on any file in the
+        # directory that does not match, so a README.md beside the configs stops
+        # the run before a single role is called.
+        ignore_unknown_extensions: true
       tags:
         - always
 
