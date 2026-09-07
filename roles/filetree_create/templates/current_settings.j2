@@ -1,4 +1,20 @@
 ---
+{# Render a scalar with its own YAML type. Quoting everything turned an integer
+   into "1800" and null into the string "null", and the blind replace() that went
+   with it rewrote any value that merely contained True, False or None as a
+   substring, so a URL such as https://None.example.com came out as
+   https://null.example.com. #}
+{% macro render_scalar(value) -%}
+{%- if value is none -%}
+null
+{%- elif value is boolean -%}
+{{ value | bool | lower }}
+{%- elif value is number -%}
+{{ value }}
+{%- else -%}
+"{{ value | string | replace('$encrypted$', '') | replace('\\', '\\\\') | replace('"', '\\"') }}"
+{%- endif -%}
+{%- endmacro %}
 controller_settings:
   - settings:
 {% for key,value in all_settings[0].items() %}
@@ -6,7 +22,7 @@ controller_settings:
 {{ key | indent(width=6, first=True) }}:
 {{ value | to_nice_yaml(indent=2, sort_keys=false) | indent(width=8, first=True) }}
 {%-  else %}
-{{ key | indent(width=6, first=True) }}: "{{ value | replace('True', 'true') | replace('False', 'false') | replace('None', 'null') | replace('$encrypted$', '') }}"
+{{ key | indent(width=6, first=True) }}: {{ render_scalar(value) }}
 {%   endif %}
 {% endfor %}
 ...
