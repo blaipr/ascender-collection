@@ -17,6 +17,7 @@
     controller_inventories: []
     controller_inventory_sources: []
     controller_instance_groups: []
+    controller_instances: []
     controller_hosts: []
     controller_groups: []
     controller_templates: []

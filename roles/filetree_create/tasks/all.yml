@@ -71,6 +71,9 @@
     - name: all | Export Instance Groups
       ansible.builtin.include_tasks: instance_groups.yml
       when: "'instance_groups' in input_tag or 'all' in input_tag"
+    - name: all | Export Instances
+      ansible.builtin.include_tasks: instances.yml
+      when: "'instances' in input_tag or 'all' in input_tag"
     - name: all | Export Applications
       ansible.builtin.include_tasks: applications.yml
       when: "'applications' in input_tag or 'all' in input_tag"
