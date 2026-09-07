@@ -36,7 +36,7 @@ options:
     scm_type:
       description:
         - Type of SCM resource.
-      choices: ["manual", "git", "svn", "insights", "archive"]
+      choices: ["manual", "git", "svn", "archive"]
       type: str
     scm_url:
       description:
@@ -285,7 +285,7 @@ def main():
         new_name=dict(),
         copy_from=dict(),
         description=dict(),
-        scm_type=dict(choices=['manual', 'git', 'svn', 'insights', 'archive']),
+        scm_type=dict(choices=['manual', 'git', 'svn', 'archive']),
         scm_url=dict(),
         local_path=dict(),
         scm_branch=dict(),
