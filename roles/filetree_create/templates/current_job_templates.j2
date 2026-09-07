@@ -137,15 +137,15 @@ controller_templates:
                                       | default(template_overrides_global.job_template.ask_instance_groups_on_launch)
                                       | default(current_job_templates_asset_value.ask_instance_groups_on_launch | bool | lower) }}
 {% endif %}
+{% set __jt_extra_vars = template_overrides_resources.job_template[current_job_templates_asset_value.name].extra_vars
+                             | default(template_overrides_global.job_template.extra_vars)
+                             | default(current_job_templates_asset_value.extra_vars) %}
+{% set __jt_extra_vars = (__jt_extra_vars if __jt_extra_vars is mapping or (__jt_extra_vars | type_debug) == 'list' else (__jt_extra_vars | from_yaml)) %}
 {% if template_overrides_resources.job_template[current_job_templates_asset_value.name].extra_vars is defined
       or template_overrides_global.job_template.extra_vars is defined
-      or current_job_templates_asset_value.extra_vars and current_job_templates_asset_value.extra_vars | from_yaml | string is not match('None') %}
+      or (current_job_templates_asset_value.extra_vars and (__jt_extra_vars | string) is not match('None')) %}
     extra_vars:
-{% set extra_vars_contents = template_overrides_resources.job_template[current_job_templates_asset_value.name].extra_vars
-                             | default(template_overrides_global.job_template.extra_vars)
-                             | default(current_job_templates_asset_value.extra_vars)
-                             | from_yaml
--%}
+{% set extra_vars_contents = __jt_extra_vars -%}
 {%   for extra_vars_item in (extra_vars_contents | dict2items) if ((extra_vars_item.value | string | length) > 0 and (extra_vars_item.value | string) is not match('None')) %}
 {%     if extra_vars_item.value | type_debug is match('list') %}
       {{ extra_vars_item.key }}:
