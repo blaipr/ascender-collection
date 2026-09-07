@@ -89,6 +89,21 @@ id:
     returned: on successful create or update
     type: int
     sample: 42
+client_id:
+    description: The OAuth2 client identifier the controller generated for the application.
+    returned: when the API returns one, which is on create for every authorization grant type
+    type: str
+    sample: gwSuUlAaBcDeFgHiJkLmNoPqRsTuVwXyZ0123456
+client_secret:
+    description:
+      - The OAuth2 client secret the controller generated for the application.
+      - Only a C(confidential) application has one, and the real value is disclosed only by the request
+        that creates it. Capture it from that task, because a later run returns the censored placeholder
+        instead and the secret cannot be recovered.
+      - A C(public) application has no client secret and this key is absent.
+    returned: on create for a confidential application, censored on any later request
+    type: str
+    sample: 8mKpQrStUvWxYz0123456789AbCdEfGhIjKlMnOpQrStUvWxYz0123456789AbCd
 '''
 
 from ..module_utils.controller_api import ControllerAPIModule
