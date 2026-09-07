@@ -64,7 +64,7 @@
         error_flag: true
       when: ansible_check_mode and __workflows_node_async.failed is defined and __workflows_node_async.failed
 
-    - name: add_workflows_schema | Manage Workflows | Wait for finish the workflow creation
+    - name: add_workflows_schema | Manage Workflow Nodes | Wait for finish the node creation
       when:
         - not ansible_check_mode
         - __workflows_node_async_results_item.ansible_job_id is defined
@@ -73,7 +73,10 @@
       loop: "{{ __workflows_node_async.results }}"
       loop_control:
         loop_var: __workflows_node_async_results_item
+        label: "{{ __operation.verb }} Workflow node {{ __workflows_node_async_results_item.__workflow_loop_node_item.identifier }} | Wait for finish the node {{
+          __operation.action }}"
       vars:
+        __operation: "{{ operation_translate[__workflows_node_async_results_item.__workflow_loop_node_item.state | default(controller_state) | default('present')] }}"
         cas_secure_logging: "{{ workflow_job_templates_secure_logging }}"
         cas_async_delay: "{{ controller_configuration_workflow_async_delay }}"
         cas_async_retries: "{{ controller_configuration_workflow_async_retries }}"
@@ -120,7 +123,7 @@
         error_flag: true
       when: ansible_check_mode and __workflows_link_async.failed is defined and __workflows_link_async.failed
 
-    - name: add_workflows_schema | Manage Workflows | Wait for finish the workflow creation
+    - name: add_workflows_schema | Manage Workflow Links | Wait for finish the link creation
       when:
         - not ansible_check_mode
         - __workflows_link_async_results_item.ansible_job_id is defined
@@ -129,7 +132,10 @@
       loop: "{{ __workflows_link_async.results }}"
       loop_control:
         loop_var: __workflows_link_async_results_item
+        label: "{{ __operation.verb }} Workflow links for {{ __workflows_link_async_results_item.__workflow_loop_node_item.identifier }} | Wait for finish the link {{
+          __operation.action }}"
       vars:
+        __operation: "{{ operation_translate[__workflows_link_async_results_item.__workflow_loop_node_item.state | default(controller_state) | default('present')] }}"
         cas_secure_logging: "{{ workflow_job_templates_secure_logging }}"
         cas_async_delay: "{{ controller_configuration_workflow_async_delay }}"
         cas_async_retries: "{{ controller_configuration_workflow_async_retries }}"
