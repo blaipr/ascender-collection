@@ -18,8 +18,9 @@
           else omit), true)) }}"
         project: "{{ __controller_template_item.project.name | default(__controller_template_item.project | default(omit, true)) }}"
         playbook: "{{ __controller_template_item.playbook | default(omit, true) }}"
-        credentials: "{{ __controller_template_item.credentials | default(__controller_template_item.related.credentials | default([]) | map(attribute='name') | list)
-          | default(([] if controller_configuration_job_templates_enforce_defaults else omit), true) }}"
+        credentials: "{{ __controller_template_item.credentials if __controller_template_item.credentials is defined else
+          (__controller_template_item.related.credentials | map(attribute='name') | list if __controller_template_item.related.credentials is defined
+          else ([] if controller_configuration_job_templates_enforce_defaults else omit)) }}"
         forks: "{{ __controller_template_item.forks | default(0, true) if __controller_template_item.forks is defined or controller_configuration_job_templates_enforce_defaults
           else omit }}"
         limit: "{{ __controller_template_item.limit | default(('' if controller_configuration_job_templates_enforce_defaults else omit), true) }}"
@@ -76,7 +77,8 @@
           }}"
         timeout: "{{ __controller_template_item.timeout | default(0, true) if __controller_template_item.timeout is defined or controller_configuration_job_templates_enforce_defaults
           else omit }}"
-        instance_groups: "{{ __controller_template_item.instance_groups | default(([] if controller_configuration_job_templates_enforce_defaults else omit), true) }}"
+        instance_groups: "{{ __controller_template_item.instance_groups if __controller_template_item.instance_groups is defined else ([] if
+          controller_configuration_job_templates_enforce_defaults else omit) }}"
         job_slice_count: "{{ __controller_template_item.job_slice_count | default((1 if controller_configuration_job_templates_enforce_defaults else omit), true) }}"
         job_slice_pinned_hosts: "{{ __controller_template_item.job_slice_pinned_hosts
                                       | default(('' if controller_configuration_job_templates_enforce_defaults else omit)) }}"
@@ -84,22 +86,22 @@
         webhook_credential: "{{ __controller_template_item.webhook_credential | default(omit, true) }}"
         webhook_key: "{{ __controller_template_item.webhook_key | default(omit) }}"
         scm_branch: "{{ __controller_template_item.scm_branch | default(('' if controller_configuration_job_templates_enforce_defaults else omit), true) }}"
-        labels: "{{ __controller_template_item.labels | default((__controller_template_item.related.labels | map(attribute='name')
-          | list if __controller_template_item.related.labels is defined)) | default(([] if controller_configuration_job_templates_enforce_defaults
-          else omit), true) }}"
+        labels: "{{ __controller_template_item.labels if __controller_template_item.labels is defined else (__controller_template_item.related.labels
+          | map(attribute='name') | list if __controller_template_item.related.labels is defined else ([] if
+          controller_configuration_job_templates_enforce_defaults else omit)) }}"
         state: "{{ __controller_template_item.state | default(controller_state | default('present')) }}"
-        notification_templates_started: "{{ __controller_template_item.notification_templates_started
-          | default((__controller_template_item.related.notification_templates_started | map(attribute='name')
-          | list if __controller_template_item.related.notification_templates_started is defined))
-          | default(([] if controller_configuration_job_templates_enforce_defaults else omit), true) }}"
-        notification_templates_success: "{{ __controller_template_item.notification_templates_success
-          | default((__controller_template_item.related.notification_templates_success | map(attribute='name')
-          | list if __controller_template_item.related.notification_templates_success is defined))
-          | default(([] if controller_configuration_job_templates_enforce_defaults else omit), true) }}"
-        notification_templates_error: "{{ __controller_template_item.notification_templates_error
-          | default((__controller_template_item.related.notification_templates_error | map(attribute='name')
-          | list if __controller_template_item.related.notification_templates_error is defined))
-          | default(([] if controller_configuration_job_templates_enforce_defaults else omit), true) }}"
+        notification_templates_started: "{{ __controller_template_item.notification_templates_started if
+          __controller_template_item.notification_templates_started is defined else (__controller_template_item.related.notification_templates_started
+          | map(attribute='name') | list if __controller_template_item.related.notification_templates_started is defined else ([] if
+          controller_configuration_job_templates_enforce_defaults else omit)) }}"
+        notification_templates_success: "{{ __controller_template_item.notification_templates_success if
+          __controller_template_item.notification_templates_success is defined else (__controller_template_item.related.notification_templates_success
+          | map(attribute='name') | list if __controller_template_item.related.notification_templates_success is defined else ([] if
+          controller_configuration_job_templates_enforce_defaults else omit)) }}"
+        notification_templates_error: "{{ __controller_template_item.notification_templates_error if
+          __controller_template_item.notification_templates_error is defined else (__controller_template_item.related.notification_templates_error |
+          map(attribute='name') | list if __controller_template_item.related.notification_templates_error is defined else ([] if
+          controller_configuration_job_templates_enforce_defaults else omit)) }}"
 
         # Role Standard Options
         controller_username: "{{ controller_username | default(omit, true) }}"
