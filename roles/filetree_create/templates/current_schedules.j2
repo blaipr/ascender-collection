@@ -68,10 +68,11 @@ controller_schedules:
       or template_overrides_global.schedule.extra_data is defined
       or current_schedules_asset_value.extra_data is defined and current_schedules_asset_value.extra_data | length > 0 %}
     extra_data:
-      {{ template_overrides_resources.schedule[current_schedules_asset_value.name].extra_data
+{% set __schedule_extra_data = template_overrides_resources.schedule[current_schedules_asset_value.name].extra_data
          | default(template_overrides_global.schedule.extra_data)
-         | default(current_schedules_asset_value.extra_data)
-         | from_yaml | to_nice_yaml(indent=2, sort_keys=False) | indent(width=6, first=False) | regex_replace('(^[^:]*): (.*){([{%])', '\\g<1>: !unsafe \\g<2>{\\g<3>', multiline=True) | replace("$encrypted$", "\'\'") }}
+         | default(current_schedules_asset_value.extra_data) %}
+      {{ (__schedule_extra_data if __schedule_extra_data is mapping or (__schedule_extra_data | type_debug) == 'list' else (__schedule_extra_data | from_yaml))
+         | to_nice_yaml(indent=2, sort_keys=False) | indent(width=6, first=False) | regex_replace('(^[^:]*): (.*){([{%])', '\\g<1>: !unsafe \\g<2>{\\g<3>', multiline=True) | replace("$encrypted$", "\'\'") }}
 {%- endif -%}
 {% if query_credentials | length > 0 %}
     credentials:

@@ -45,10 +45,11 @@ controller_inventory_sources:
       or template_overrides_global.inventory_source.source_vars is defined
       or (inventory_source.source_vars is defined and inventory_source.source_vars != '---' and inventory_source.source_vars != '') %}
     source_vars:
-      {{ template_overrides_resources.inventory_source[inventory_source.name].source_vars
+{% set __inventory_source_source_vars = template_overrides_resources.inventory_source[inventory_source.name].source_vars
          | default(template_overrides_global.inventory_source.source_vars)
-         | default(inventory_source.source_vars)
-         | from_yaml | to_nice_yaml(indent=2, sort_keys=False) | indent(width=6, first=False) | regex_replace('(^[^:]*): (.*){([{%])', '\\g<1>: !unsafe \\g<2>{\\g<3>', multiline=True)}}
+         | default(inventory_source.source_vars) %}
+      {{ (__inventory_source_source_vars if __inventory_source_source_vars is mapping or (__inventory_source_source_vars | type_debug) == 'list' else (__inventory_source_source_vars | from_yaml))
+         | to_nice_yaml(indent=2, sort_keys=False) | indent(width=6, first=False) | regex_replace('(^[^:]*): (.*){([{%])', '\\g<1>: !unsafe \\g<2>{\\g<3>', multiline=True)}}
 {%- endif %}
     inventory: "{{ inventory_source.summary_fields.inventory.name }}"
     update_on_launch: "{{ template_overrides_resources.inventory_source[inventory_source.name].update_on_launch
