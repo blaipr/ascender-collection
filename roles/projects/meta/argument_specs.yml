@@ -31,7 +31,6 @@ argument_specs:
         #       - manual
         #       - git
         #       - svn
-        #       - insights
         #       - archive
         #     description: Type of SCM resource.
         #   scm_url:
