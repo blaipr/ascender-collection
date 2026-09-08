@@ -1,15 +1,17 @@
 ---
-- name: "Run the following ctrliq.ascender roles: {{ controller_configuration_dispatcher_roles | map(attribute='role') | join(', ') }}"
+- name: "Run the following ctrliq.ascender roles: {{ __dispatcher_roles | map(attribute='role') | join(', ') }}"
   ansible.builtin.include_role:
     name: "{{ __role.role }}"
     apply:
       tags: "{{ __role.tags }}"
   when: vars[__role.var] is defined
   tags: always
-  loop: "{{ controller_configuration_dispatcher_roles }}"
+  loop: "{{ __dispatcher_roles }}"
   loop_control:
     loop_var: __role
   vars:
+    __dispatcher_roles: "{{ controller_configuration_dispatcher_roles
+      | rejectattr('role', 'in', controller_configuration_dispatcher_exclude_roles) | list }}"
     assign_galaxy_credentials_to_org: "{{ __role.assign_galaxy_credentials_to_org | default(false) }}"
     assign_default_ee_to_org: "{{ __role.assign_default_ee_to_org | default(false) }}"
     assign_notification_templates_to_org: "{{ __role.assign_notification_templates_to_org | default(false) }}"

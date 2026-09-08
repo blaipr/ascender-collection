@@ -3,6 +3,12 @@ argument_specs:
   main:
     short_description: An Ansible Role to call other roles to create objects on Ansible Controller.
     options:
+      controller_configuration_dispatcher_exclude_roles:
+        default: []
+        required: false
+        type: list
+        elements: str
+        description: Role names the dispatcher skips, matched against the role key of each dispatcher entry.
       controller_configuration_dispatcher_roles:
         default:
           - { role: settings, var: controller_settings, tags: settings }
