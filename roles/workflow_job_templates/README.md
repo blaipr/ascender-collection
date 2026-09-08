@@ -86,7 +86,7 @@ This also speeds up the overall role.
 |`ask_limit_on_launch`|""|no|bool|Prompt user for a limit on launch.|
 |`ask_scm_branch_on_launch`|""|no|bool|Prompt user for scm branch on launch.|
 |`ask_variables_on_launch`|""|no|bool|Prompt user for extra_vars on launch.|
-|`extra_vars`|""|no|dict|Specify extra_vars for the template.|
+|`extra_vars`|""|no|dict|Specify extra_vars for the template. Set to `{}` to clear them. Omitting this key leaves the existing variables unchanged.|
 |`allow_simultaneous`|""|no|bool|Allow simultaneous runs of the workflow job template.|
 |`inventory`|""|no|str|Inventory applied as a prompt, assuming job template prompts for inventory|
 |`limit`|""|no|str|Limit applied as a prompt, assuming job template prompts for limit|

@@ -10,7 +10,8 @@
         new_name: "{{ __controller_schedule_item.new_name | default(omit, true) }}"
         description: "{{ __controller_schedule_item.description | default(('' if controller_configuration_schedules_enforce_defaults else omit), true) }}"
         rrule: "{{ __controller_schedule_item.rrule | default(omit, true) }}"
-        extra_data: "{{ __controller_schedule_item.extra_data | default(({} if controller_configuration_schedules_enforce_defaults else omit), true) }}"
+        extra_data: "{{ __controller_schedule_item.extra_data if __controller_schedule_item.extra_data is defined else ({} if
+          controller_configuration_schedules_enforce_defaults else omit) }}"
         inventory: "{{ __controller_schedule_item.inventory | default(('' if controller_configuration_schedules_enforce_defaults else omit), true) }}"
         credentials: "{{ __controller_schedule_item.credentials if __controller_schedule_item.credentials is defined else (omit) }}"
         scm_branch: "{{ __controller_schedule_item.scm_branch | default(('' if controller_configuration_schedules_enforce_defaults else omit), true) }}"
