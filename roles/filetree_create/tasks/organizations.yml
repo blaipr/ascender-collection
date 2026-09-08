@@ -50,7 +50,11 @@
 - name: organizations | Block for to generate the filetre_create normal output
   when: flatten_output is not defined or not (flatten_output | bool)
   block:
-    - name: "organizations | Create the output directory for organizations: {{ output_path + '/' + current_organization_dir.name }}"
+    # The name is static on purpose. current_organization_dir is this task's own
+    # loop_var, so it is not in scope while the name is templated, and when
+    # flatten_output skips the block Ansible still renders the name and reports
+    # "Encountered 2 template errors". The per-item detail is on the loop label.
+    - name: organizations | Create the output directory for organizations
       ansible.builtin.file:
         path: "{{ __path }}"
         state: directory
