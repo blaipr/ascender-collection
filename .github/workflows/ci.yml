@@ -119,6 +119,27 @@ jobs:
   unit:
     name: Unit tests
     runs-on: ubuntu-latest
+
+    # settings_for_test in the ascender checkout points DATABASES at PostgreSQL on
+    # 127.0.0.1:5432. It ran on SQLite until ctrliq/ascender 2c0160da71, which needed
+    # no service, so this job never had one and every test that opens a connection
+    # errors out. The values below are the names settings_for_test falls back to when
+    # no AWX_TEST_DATABASE_* is set, which is why the test step needs no extra env.
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: awx
+          POSTGRES_PASSWORD: awxpass
+          POSTGRES_DB: awx
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
 
