@@ -22,10 +22,11 @@ controller_hosts:
       or template_overrides_global.host.variables is defined
       or (host.variables and host.variables != '---' and host.variables != '') %}
     variables:
-      {{ template_overrides_resources.host[host.name].variables
+{% set __host_variables = template_overrides_resources.host[host.name].variables
          | default(template_overrides_global.host.variables)
-         | default(host.variables)
-         | from_yaml | to_nice_yaml(indent=2, sort_keys=False) | indent(width=6, first=False) | regex_replace('(^[^:]*): (.*){([{%])', '\\g<1>: !unsafe \\g<2>{\\g<3>', multiline=True)}}
+         | default(host.variables) %}
+      {{ (__host_variables if __host_variables is mapping or (__host_variables | type_debug) == 'list' else (__host_variables | from_yaml))
+         | to_nice_yaml(indent=2, sort_keys=False) | indent(width=6, first=False) | regex_replace('(^[^:]*): (.*){([{%])', '\\g<1>: !unsafe \\g<2>{\\g<3>', multiline=True)}}
 {%- endif %}
 {% endfor %}
 ...

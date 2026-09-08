@@ -35,10 +35,11 @@ controller_inventories:
       or template_overrides_global.inventory.source_vars is defined
       or current_inventories_asset_value.source_vars is defined %}
     source_vars:
-      {{ template_overrides_resources.inventory[current_inventories_asset_value.name].source_vars
+{% set __inventory_source_vars = template_overrides_resources.inventory[current_inventories_asset_value.name].source_vars
          | default(template_overrides_global.inventory.source_vars)
-         | default(current_inventories_asset_value.source_vars)
-         | from_yaml | to_nice_yaml(indent=2, sort_keys=False) | indent(width=6, first=False) |  regex_replace('(^[^:]*): (.*){([{%])', '\\g<1>: !unsafe \\g<2>{\\g<3>', multiline=True)}}
+         | default(current_inventories_asset_value.source_vars) %}
+      {{ (__inventory_source_vars if __inventory_source_vars is mapping or (__inventory_source_vars | type_debug) == 'list' else (__inventory_source_vars | from_yaml))
+         | to_nice_yaml(indent=2, sort_keys=False) | indent(width=6, first=False) |  regex_replace('(^[^:]*): (.*){([{%])', '\\g<1>: !unsafe \\g<2>{\\g<3>', multiline=True)}}
 {% endif %}
 {% if template_overrides_resources.inventory[current_inventories_asset_value.name].update_cache_timeout is defined
       or template_overrides_global.inventory.update_cache_timeout is defined
@@ -65,10 +66,11 @@ controller_inventories:
       or template_overrides_global.inventory.variables is defined
       or (current_inventories_asset_value.variables is defined and current_inventories_asset_value.variables != '---' and current_inventories_asset_value.variables != '') %}
     variables:
-      {{ template_overrides_resources.inventory[current_inventories_asset_value.name].variables
+{% set __inventory_variables = template_overrides_resources.inventory[current_inventories_asset_value.name].variables
          | default(template_overrides_global.inventory.variables)
-         | default(current_inventories_asset_value.variables)
-         | from_yaml | to_nice_yaml(indent=2, sort_keys=False) | indent(width=6, first=False) | regex_replace('(^[^:]*): (.*){([{%])', '\\g<1>: !unsafe \\g<2>{\\g<3>', multiline=True)}}
+         | default(current_inventories_asset_value.variables) %}
+      {{ (__inventory_variables if __inventory_variables is mapping or (__inventory_variables | type_debug) == 'list' else (__inventory_variables | from_yaml))
+         | to_nice_yaml(indent=2, sort_keys=False) | indent(width=6, first=False) | regex_replace('(^[^:]*): (.*){([{%])', '\\g<1>: !unsafe \\g<2>{\\g<3>', multiline=True)}}
 {%- endif %}
 {% if template_overrides_resources.inventory[current_inventories_asset_value.name].input_inventories is defined
       or template_overrides_global.inventory.input_inventories is defined
