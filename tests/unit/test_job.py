@@ -27,7 +27,7 @@ def test_job_wait_failed(run_module, admin_user):
     result['elapsed'] = float(result['elapsed'])
     assert result.pop('finished', '')[:10] == str(job.finished)[:10]
     assert result.pop('started', '')[:10] == str(job.started)[:10]
-    assert result == {"status": "failed", "failed": True, "changed": False, "elapsed": job.elapsed, "id": job.id, "msg": "Job with id 1 failed"}
+    assert result == {"status": "failed", "failed": True, "changed": False, "elapsed": job.elapsed, "id": job.id, "msg": f"Job with id {job.id} failed"}
 
 
 @pytest.mark.django_db
