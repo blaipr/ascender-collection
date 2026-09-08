@@ -38,23 +38,22 @@
                               | default(__controller_source_item.source_project
                               | default(('' if controller_configuration_inventory_sources_enforce_defaults else omit), true)) }}"
         scm_branch: "{{ __controller_source_item.scm_branch | default(('' if controller_configuration_inventory_sources_enforce_defaults else omit), true) }}"
-        instance_groups: "{{ __controller_source_item.instance_groups
-          | default((__controller_source_item.related.instance_groups | map(attribute='name')
-          | list if __controller_source_item.related.instance_groups is defined))
-          | default(([] if controller_configuration_inventory_sources_enforce_defaults else omit), true) }}"
+        instance_groups: "{{ __controller_source_item.instance_groups if __controller_source_item.instance_groups is defined else
+          (__controller_source_item.related.instance_groups | map(attribute='name') | list if __controller_source_item.related.instance_groups is
+          defined else ([] if controller_configuration_inventory_sources_enforce_defaults else omit)) }}"
         state: "{{ __controller_source_item.state | default(controller_state | default('present')) }}"
-        notification_templates_started: "{{ __controller_source_item.notification_templates_started
-          | default((__controller_source_item.related.notification_templates_started | map(attribute='name')
-          | list if __controller_source_item.related.notification_templates_started is defined))
-          | default(([] if controller_configuration_inventory_sources_enforce_defaults else omit), true) }}"
-        notification_templates_success: "{{ __controller_source_item.notification_templates_success
-          | default((__controller_source_item.related.notification_templates_success | map(attribute='name')
-          | list if __controller_source_item.related.notification_templates_success is defined))
-          | default(([] if controller_configuration_inventory_sources_enforce_defaults else omit), true) }}"
-        notification_templates_error: "{{ __controller_source_item.notification_templates_error
-          | default((__controller_source_item.related.notification_templates_error | map(attribute='name')
-          | list if __controller_source_item.related.notification_templates_error is defined))
-          | default(([] if controller_configuration_inventory_sources_enforce_defaults else omit), true) }}"
+        notification_templates_started: "{{ __controller_source_item.notification_templates_started if
+          __controller_source_item.notification_templates_started is defined else (__controller_source_item.related.notification_templates_started |
+          map(attribute='name') | list if __controller_source_item.related.notification_templates_started is defined else ([] if
+          controller_configuration_inventory_sources_enforce_defaults else omit)) }}"
+        notification_templates_success: "{{ __controller_source_item.notification_templates_success if
+          __controller_source_item.notification_templates_success is defined else (__controller_source_item.related.notification_templates_success |
+          map(attribute='name') | list if __controller_source_item.related.notification_templates_success is defined else ([] if
+          controller_configuration_inventory_sources_enforce_defaults else omit)) }}"
+        notification_templates_error: "{{ __controller_source_item.notification_templates_error if
+          __controller_source_item.notification_templates_error is defined else (__controller_source_item.related.notification_templates_error |
+          map(attribute='name') | list if __controller_source_item.related.notification_templates_error is defined else ([] if
+          controller_configuration_inventory_sources_enforce_defaults else omit)) }}"
 
         # Role Standard Options
         controller_config_file: "{{ controller_config_file | default(omit, true) }}"

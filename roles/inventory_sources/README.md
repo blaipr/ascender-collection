@@ -119,11 +119,11 @@ The role will strip the double space between the curly bracket in order to provi
 |`update_cache_timeout`|""|no|Time in seconds to consider an inventory sync to be current.|
 |`source_project`|""|no|Project to use as source with scm option.|
 |`scm_branch`|""|no|Project scm branch to use as source with scm option. Project must have branch override enabled.|
-|`instance_groups`|""|no|List of Instance Groups for this inventory source to run on.|
+|`instance_groups`|""|no|List of Instance Groups for this inventory source to run on. Set to `[]` to remove all. Omitting this key leaves existing instance groups unchanged.|
 |`state`|`present`|no|Desired state of the resource.|
-|`notification_templates_started`|""|no|The notifications on started to use for this inventory source in a list.|
-|`notification_templates_success`|""|no|The notifications on success to use for this inventory source in a list.|
-|`notification_templates_error`|""|no|The notifications on error to use for this inventory source in a list.|
+|`notification_templates_started`|""|no|The notifications on started to use for this inventory source in a list. Set to `[]` to remove all. Omitting this key leaves existing notifications unchanged.|
+|`notification_templates_success`|""|no|The notifications on success to use for this inventory source in a list. Set to `[]` to remove all. Omitting this key leaves existing notifications unchanged.|
+|`notification_templates_error`|""|no|The notifications on error to use for this inventory source in a list. Set to `[]` to remove all. Omitting this key leaves existing notifications unchanged.|
 
 ### Standard Inventory Source Data Structure
 
