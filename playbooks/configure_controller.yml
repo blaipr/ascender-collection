@@ -2,6 +2,9 @@
 - name: Playbook to configure ansible controller post installation
   hosts: localhost
   connection: local
+  # Nothing here reads a fact. The roles talk to the controller API over the
+  # network, so gathering costs a setup run on localhost for no reader.
+  gather_facts: false
   tasks:
     - name: Include vars from configs directory
       ansible.builtin.include_vars:
