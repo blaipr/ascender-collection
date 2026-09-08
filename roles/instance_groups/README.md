@@ -83,11 +83,11 @@ This also speeds up the overall role.
 |`is_container_group`|False|no|bool|Signifies that this InstanceGroup should act as a ContainerGroup. If no credential is specified, the underlying Pod's ServiceAccount will be used.|
 |`policy_instance_percentage`|""|no|int|Minimum percentage of all instances that will be automatically assigned to this group when new instances come online.|
 |`policy_instance_minimum`|""|no|int|Static minimum number of Instances that will be automatically assign to this group when new instances come online.|
-|`policy_instance_list`|""|no|list|List of exact-match Instances that will be assigned to this group.|
+|`policy_instance_list`|""|no|list|List of exact-match Instances that will be assigned to this group. Set to `[]` to remove all. Omitting this key leaves the existing list unchanged.|
 |`max_concurrent_jobs`|0|no|int|Maximum number of concurrent jobs to run on this group. Zero means no limit.|
 |`max_forks`|0|no|int|Max forks to execute on this group. Zero means no limit.|
 |`pod_spec_override`|""|no|str|A custom Kubernetes or OpenShift Pod specification.|
-|`instances`|""|no|list|The instances associated with this instance_group.|
+|`instances`|""|no|list|The instances associated with this instance_group. Set to `[]` to remove all. Omitting this key leaves existing instances unchanged.|
 |`state`|`present`|no|str|Desired state of the resource.|
 
 ### Standard Instance Group Data Structure

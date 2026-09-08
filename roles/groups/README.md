@@ -102,7 +102,7 @@ The role will strip the double space between the curly bracket in order to provi
 |`description`|`False`|no|str|Description of the Group.|
 |`inventory`|""|yes|str|Name of inventory the group should be made a member of.|
 |`variables`|{}|no|dict|variables applicable to group.|
-|`hosts`|""|no|list|hosts (list) in group|
+|`hosts`|""|no|list|hosts (list) in group Set to `[]` to remove all. Omitting this key leaves existing hosts unchanged.|
 |`children`|""|no|list|List of groups that should be nested inside in this group|
 |`preserve_existing_hosts`|`False`|no|bool|Whether to preserve existing hosts in an existing group|
 |`preserve_existing_children`|`False`|no|bool|Whether to preserve existing children in an existing group|
