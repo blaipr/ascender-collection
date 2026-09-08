@@ -224,7 +224,11 @@ def main():
     inventory_object = module.get_one('inventories', name_or_id=inventory, data=lookup_data)
 
     if not inventory_object:
-        module.fail_json(msg=f'The specified inventory, {inventory}, was not found.')
+        # An inventory that does not exist cannot have sources, so removing one is already done.
+        if state == 'absent':
+            module.exit_json(**module.json_output)
+        else:
+            module.fail_json(msg=f'The specified inventory, {inventory}, was not found.')
 
     inventory_source_object = module.get_one(
         'inventory_sources',
