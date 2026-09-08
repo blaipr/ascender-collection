@@ -26,6 +26,7 @@ options:
     timeout:
       description:
         - Maximum time in seconds to wait for a ad hoc command to finish.
+        - A value of 0 waits without a limit, the same as leaving it unset.
       type: int
 extends_documentation_fragment: ctrliq.ascender.auth
 '''

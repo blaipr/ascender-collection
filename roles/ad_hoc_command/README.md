@@ -57,7 +57,7 @@ controller_configuration_ad_hoc_command_secure_logging defaults to the value of 
 |`diff_mode`|""|no|bool|Show the changes made by Ansible tasks where supported|
 |`wait`|`False`|no|bool|Wait for the command to complete.|
 |`interval`|2|no|int|The interval to request an update from controller.|
-|`timeout`|""|no|int|If waiting for the command to complete this will abort after this amount of seconds.|
+|`timeout`|""|no|int|If waiting for the command to complete this will abort after this amount of seconds. A value of 0 waits without a limit.|
 
 ### Standard Ad Hoc Command Data Structure
 

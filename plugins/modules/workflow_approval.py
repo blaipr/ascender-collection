@@ -37,6 +37,7 @@ options:
     timeout:
       description:
         - Maximum time in seconds to wait for a workflow job to to reach approval node.
+        - A value of 0 waits without a limit.
       default: 10
       type: int
 extends_documentation_fragment: ctrliq.ascender.auth

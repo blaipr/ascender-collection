@@ -1092,7 +1092,7 @@ class ControllerAPIModule(ControllerModule):
     def is_job_done(self, job_status):
         return job_status not in ['new', 'pending', 'waiting', 'running']
 
-    def wait_on_url(self, url, object_name, object_type, timeout=30, interval=2):
+    def wait_on_url(self, url, object_name, object_type, timeout=None, interval=2):
         # Grab our start time to compare against for the timeout
         start = time.time()
         result = self.get_endpoint(url)
@@ -1100,13 +1100,26 @@ class ControllerAPIModule(ControllerModule):
         if wait_on_field not in result['json']:
             wait_on_field = 'finished'
         while not result['json'][wait_on_field]:
-            # If we are past our time out fail with a message
-            if timeout is not None and timeout < time.time() - start:
+            # If we are past our time out fail with a message.
+            #
+            # A timeout of 0 or None means no client side limit, so this is a truthiness test on purpose. The
+            # project module documents 0 as "no timeout", the projects role sends a literal 0 for every project
+            # that sets timeout or job_timeout or has enforce_defaults on, ad_hoc_command_cancel treats its
+            # default of 0 the same way, and so does the upstream AWX collection this file derives from. Testing
+            # `is not None` here instead made each of those 0s abort on the first poll, a fraction of a second
+            # into an update that then went on to succeed (#296). The signature default is None for the same
+            # reason: every caller passes its own timeout parameter through, so an omitted one has always been
+            # an unbounded wait, and a default of 30 only misdescribed that.
+            elapsed = time.time() - start
+            if timeout and timeout < elapsed:
+                # Say how long the wait was, what it was waiting on and where the object had got to, so the next
+                # timeout can be read off the log rather than reconstructed from the API afterwards
+                detail = f'waited {elapsed:.1f}s for {wait_on_field}, last status: {result["json"].get("status")}'
                 # Account for Legacy messages
                 if object_type == 'legacy_job_wait':
-                    self.json_output['msg'] = f'Monitoring of Job - {object_name} aborted due to timeout'
+                    self.json_output['msg'] = f'Monitoring of Job - {object_name} aborted due to timeout ({detail})'
                 else:
-                    self.json_output['msg'] = f'Monitoring of {object_type} - {object_name} aborted due to timeout'
+                    self.json_output['msg'] = f'Monitoring of {object_type} - {object_name} aborted due to timeout ({detail})'
                 self.wait_output(result)
                 self.fail_json(**self.json_output)
 
@@ -1135,16 +1148,17 @@ class ControllerAPIModule(ControllerModule):
         for k in ('id', 'status', 'elapsed', 'started', 'finished'):
             self.json_output[k] = response['json'].get(k)
 
-    def wait_on_workflow_node_url(self, url, object_name, object_type, timeout=30, interval=2, **kwargs):
+    def wait_on_workflow_node_url(self, url, object_name, object_type, timeout=None, interval=2, **kwargs):
         # Grab our start time to compare against for the timeout
         start = time.time()
         result = self.get_endpoint(url, **kwargs)
 
         while result["json"]["count"] == 0:
-            # If we are past our time out fail with a message
-            if timeout is not None and timeout < time.time() - start:
-                # Account for Legacy messages
-                self.json_output["msg"] = f"Monitoring of {object_type} - {object_name} aborted due to timeout, {url}"
+            # If we are past our time out fail with a message. 0 and None both mean no limit, see wait_on_url.
+            elapsed = time.time() - start
+            if timeout and timeout < elapsed:
+                detail = f"waited {elapsed:.1f}s for a node to match {url}"
+                self.json_output["msg"] = f"Monitoring of {object_type} - {object_name} aborted due to timeout ({detail})"
                 self.wait_output(result)
                 self.fail_json(**self.json_output)
 
@@ -1156,8 +1170,15 @@ class ControllerAPIModule(ControllerModule):
             # Approval jobs have no elapsed time so return
             return result["json"]["results"][0]
         else:
-            # Removed time so far from timeout.
-            revised_timeout = None if timeout is None else timeout - (time.time() - start)
+            # Hand what is left of the budget to wait_on_url. No budget stays no budget. A budget the node search
+            # has used up comes out negative, or in theory exactly 0, and 0 would tell wait_on_url to wait without
+            # limit, so pass -1 in both cases: the job gets one poll and times out if that poll finds it unfinished.
+            if timeout:
+                revised_timeout = timeout - (time.time() - start)
+                if revised_timeout <= 0:
+                    revised_timeout = -1
+            else:
+                revised_timeout = None
             # Now that Job has been found, wait for it to finish
             result = self.wait_on_url(
                 url=result["json"]["results"][0]["related"]["job"],

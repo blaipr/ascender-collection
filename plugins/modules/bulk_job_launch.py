@@ -159,6 +159,7 @@ options:
     timeout:
       description:
         - Maximum time in seconds to wait for the bulk job to finish.
+        - A value of 0 waits without a limit, the same as leaving it unset.
       required: False
       type: int
 extends_documentation_fragment: ctrliq.ascender.auth

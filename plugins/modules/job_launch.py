@@ -119,6 +119,7 @@ options:
       description:
         - If waiting for the job to complete this will abort after this
           amount of seconds. This happens on the module side.
+        - A value of 0 waits without a limit, the same as leaving it unset.
       type: int
 extends_documentation_fragment: ctrliq.ascender.auth
 '''

@@ -91,7 +91,7 @@ options:
       description:
         - The amount of time (in seconds) to run before the SCM Update is canceled. A value of 0 means no timeout.
         - If waiting for the project to update this will abort after this
-          amount of seconds
+          amount of seconds, and 0 again means no limit.
       type: int
       aliases:
         - job_timeout
