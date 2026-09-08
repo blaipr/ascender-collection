@@ -87,7 +87,7 @@ This also speeds up the overall role.
 |`organization`|""|no|str|Organization the job template exists in. Used to help lookup the object, cannot be modified using this module. The Organization is inferred from the associated project|
 |`project`|""|no|str|Name of the project to use for the job template.|
 |`playbook`|""|no|str|Path to the playbook to use for the job template within the project provided.|
-|`credentials`|""|no|list|List of credentials to use for the job template.|
+|`credentials`|""|no|list|List of credentials to use for the job template. Set to `[]` to remove all. Omitting this key leaves existing credentials unchanged.|
 |`forks`|""|no|int|The number of parallel or simultaneous processes to use while executing the playbook.|
 |`limit`|""|no|str|A host pattern to further constrain the list of hosts managed or affected by the playbook|
 |`verbosity`|""|no|int|Control the output level Ansible produces as the playbook runs. 0 - Normal, 1 - Verbose, 2 - More Verbose, 3 - Debug, 4 - Connection Debug .|
@@ -122,17 +122,17 @@ This also speeds up the overall role.
 |`become_enabled`|""|no|bool|Activate privilege escalation.|
 |`allow_simultaneous`|""|no|bool|Allow simultaneous runs of the job template.|
 |`timeout`|""|no|int|Maximum time in seconds to wait for a job to finish (server-side).|
-|`instance_groups`|""|no|list|list of Instance Groups for this Job Template to run on.|
+|`instance_groups`|""|no|list|list of Instance Groups for this Job Template to run on. Set to `[]` to remove all. Omitting this key leaves existing instance groups unchanged.|
 |`job_slice_count`|""|no|int|The number of jobs to slice into at runtime. Will cause the Job Template to launch a workflow if value is greater than 1.|
 |`job_slice_pinned_hosts`|""|no|str|Comma separated list of host names to include in every slice of a sliced job.|
 |`webhook_service`|""|no|str|Service that webhook requests will be accepted from (github, gitlab)|
 |`webhook_credential`|""|no|str|Personal Access Token for posting back the status to the service API|
 |`webhook_key`|""|no|str|Shared secret the webhook service uses to sign its requests. The API never returns it, so supplying it always reports a change.|
 |`scm_branch`|""|no|str|Branch to use in job run. Project default used if blank. Only allowed if project allow_override field is set to true.|
-|`labels`|""|no|list|The labels applied to this job template. NOTE: Labels must be created with the [labels](https://github.com/redhat-cop/ctrliq.ascender/tree/devel/roles/labels) role first, an error will occur if the label supplied to this role does not exist.|
-|`notification_templates_started`|""|no|list|The notifications on started to use for this organization in a list.|
-|`notification_templates_success`|""|no|list|The notifications on success to use for this organization in a list.|
-|`notification_templates_error`|""|no|list|The notifications on error to use for this organization in a list.|
+|`labels`|""|no|list|The labels applied to this job template. Set to `[]` to remove all labels. Omitting this key leaves existing labels unchanged. NOTE: Labels must be created with the [labels](https://github.com/redhat-cop/ctrliq.ascender/tree/devel/roles/labels) role first, an error will occur if the label supplied to this role does not exist.|
+|`notification_templates_started`|""|no|list|The notifications on started to use for this organization in a list. Set to `[]` to remove all. Omitting this key leaves existing notifications unchanged.|
+|`notification_templates_success`|""|no|list|The notifications on success to use for this organization in a list. Set to `[]` to remove all. Omitting this key leaves existing notifications unchanged.|
+|`notification_templates_error`|""|no|list|The notifications on error to use for this organization in a list. Set to `[]` to remove all. Omitting this key leaves existing notifications unchanged.|
 |`state`|`present`|no|str|Desired state of the resource.|
 
 ### Surveys
