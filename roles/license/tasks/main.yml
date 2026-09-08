@@ -9,6 +9,12 @@
 
 - name: Use subscription pool id or subscription lookup
   ansible.builtin.include_tasks: subscription.yml
+  # use_lookup is its own route in: without it the lookup is skipped inside
+  # subscription.yml, but the gate has to let the file in first or setting it
+  # alone leaves the role doing nothing at all and saying nothing about it.
   when:
-    - (redhat_subscription_username is defined and redhat_subscription_password is defined) or controller_license.pool_id is defined
+    - >-
+      (redhat_subscription_username is defined and redhat_subscription_password is defined)
+      or controller_license.pool_id is defined
+      or (controller_license.use_lookup | default(false))
 ...
