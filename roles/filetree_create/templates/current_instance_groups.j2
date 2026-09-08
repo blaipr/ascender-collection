@@ -1,30 +1,32 @@
 ---
-controller_instance_groups:
+controller_instance_groups: {{ [] if current_instance_groups_asset_value | length == 0 }}
 {% for ig in current_instance_groups_asset_value %}
   - name: "{{ ig.name }}"
-    policy_instance_minimum: "{{ ig.policy_instance_minimum }}"
-    policy_instance_percentage: "{{ ig.policy_instance_percentage }}"
+    policy_instance_minimum: {{ ig.policy_instance_minimum | int }}
+    policy_instance_percentage: {{ ig.policy_instance_percentage | int }}
     is_container_group: {{ ig.is_container_group | bool | lower }}
-    max_concurrent_jobs: {{ ig.max_concurrent_jobs }}
-    max_forks: {{ ig.max_forks }}
+    max_concurrent_jobs: {{ ig.max_concurrent_jobs | int }}
+    max_forks: {{ ig.max_forks | int }}
 {% if ig.policy_instance_list | length > 0 %}
     policy_instance_list:
 {%   for _policy_instance in ig.policy_instance_list %}
       - "{{ _policy_instance }}"
 {%   endfor %}
 {% endif %}
-{% if ig.credential %}
-    credential: "{{ query(controller_api_plugin, ig.related.credential,
-                          host=controller_hostname, oauth_token=controller_oauthtoken, verify_ssl=controller_validate_certs)[0].name }}"
+{% if ig.summary_fields.credential is defined and ig.summary_fields.credential.name is defined %}
+    credential: "{{ ig.summary_fields.credential.name }}"
 {% endif %}
 {% if ig.pod_spec_override %}
     pod_spec_override: !unsafe {{ ig.pod_spec_override | to_json }}
 {% endif %}
+{% set __ig_instances = query(controller_api_plugin, ig.related.instances,
+                          host=controller_hostname, oauth_token=controller_oauthtoken, verify_ssl=controller_validate_certs,
+                          return_all=true, max_objects=query_controller_api_max_objects) %}
+{% if __ig_instances | length > 0 %}
     instances:
-{% for instance in query(controller_api_plugin, ig.related.instances,
-                     host=controller_hostname, oauth_token=controller_oauthtoken, verify_ssl=controller_validate_certs,
-                     return_all=true, max_objects=query_controller_api_max_objects) %}
+{%   for instance in __ig_instances %}
       - "{{ instance.hostname }}"
-{% endfor %}
+{%   endfor %}
+{% endif %}
 {% endfor %}
 ...
