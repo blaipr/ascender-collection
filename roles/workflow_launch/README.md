@@ -53,7 +53,7 @@ controller_configuration_workflow_launch_secure_logging defaults to the value of
 |`skip_tags`|""|no|list|Specific tags to skip for the job, only used if prompt for tags is set.|
 |`wait`|""|no|bool|Wait for the job to complete.|
 |`interval`|2|no|int|The interval to request an update from controller.|
-|`timeout`|""|no|int|If waiting for the job to complete this will abort after this amount of seconds.|
+|`timeout`|""|no|int|If waiting for the job to complete this will abort after this amount of seconds. A value of 0 waits without a limit.|
 
 ### Standard Workflow Job Launch Data Structure
 

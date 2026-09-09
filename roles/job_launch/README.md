@@ -64,7 +64,7 @@ controller_configuration_job_launch_secure_logging defaults to the value of cont
 |`job_timeout`|Job Template default|no|int|Timeout to use in the job run. Job Template default used if not set. Only allowed if `ask_timeout_on_launch` set to true on Job Template|
 |`wait`|""|no|bool|Wait for the job to complete.|
 |`interval`|2|no|float|The interval to request an update from controller.|
-|`timeout`|""|no|int|If waiting for the job to complete this will abort after this amount of seconds.|
+|`timeout`|""|no|int|If waiting for the job to complete this will abort after this amount of seconds. A value of 0 waits without a limit.|
 
 ### Standard Job Launch Data Structure
 

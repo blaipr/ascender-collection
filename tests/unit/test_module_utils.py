@@ -6,6 +6,7 @@ import json
 import os
 import sys
 
+import pytest
 import yaml
 
 from awx.main.models import Organization, Team, Project, Inventory
@@ -174,6 +175,51 @@ def test_collection_version_matches_galaxy_yml(collection_import):
     assert ControllerAPIModule._COLLECTION_VERSION == galaxy_version, (
         '_COLLECTION_VERSION in plugins/module_utils/controller_api.py ({0}) does not match the version in '
         'galaxy.yml ({1}); a release must bump both together.'.format(ControllerAPIModule._COLLECTION_VERSION, galaxy_version)
+    )
+
+
+def test_wait_on_url_timeout_zero_waits_for_the_job(collection_import, mocker):
+    """A timeout of 0 means no client side limit, the way the project module documents it and the way the
+    projects role relies on it, since it sends a literal 0 for every project that sets a timeout or has
+    enforce_defaults on. Testing ``is not None`` instead made 0 abort on the first poll (#296).
+    """
+    controller_api = collection_import('plugins.module_utils.controller_api')
+    mocker.patch.object(controller_api.time, 'sleep')
+
+    module = mocker.Mock()
+    module.json_output = {}
+    module.fail_json.side_effect = SystemExit
+    running = {'json': {'status': 'running', 'failed': False, 'finished': None}}
+    finished = {'json': {'status': 'successful', 'failed': False, 'finished': '2026-09-07T15:23:49.557738Z'}}
+    module.get_endpoint.side_effect = [running, running, finished]
+
+    result = controller_api.ControllerAPIModule.wait_on_url(module, url='/project_updates/1347/', object_name='foo', object_type='Project Update', timeout=0)
+
+    assert result is finished
+    module.fail_json.assert_not_called()
+    assert module.get_endpoint.call_count == 3
+
+
+def test_wait_on_url_timeout_message_names_the_field_and_the_status(collection_import, mocker):
+    """When the budget does run out, the message says how long the wait was, which field it was waiting on
+    and where the job had got to, so the next timeout can be diagnosed from the log alone.
+    """
+    controller_api = collection_import('plugins.module_utils.controller_api')
+    mocker.patch.object(controller_api.time, 'sleep')
+    # start, first check (0.2s in, under budget), second check (3.5s in, over budget)
+    mocker.patch.object(controller_api.time, 'time', side_effect=[100.0, 100.2, 103.5, 103.5, 103.5])
+
+    module = mocker.Mock()
+    module.json_output = {}
+    module.fail_json.side_effect = SystemExit
+    module.get_endpoint.return_value = {'json': {'status': 'running', 'failed': False, 'event_processing_finished': False}}
+
+    with pytest.raises(SystemExit):
+        controller_api.ControllerAPIModule.wait_on_url(module, url='/project_updates/1347/', object_name='foo', object_type='Project Update', timeout=1)
+
+    module.fail_json.assert_called_once()
+    assert module.fail_json.call_args.kwargs['msg'] == (
+        'Monitoring of Project Update - foo aborted due to timeout (waited 3.5s for event_processing_finished, last status: running)'
     )
 
 

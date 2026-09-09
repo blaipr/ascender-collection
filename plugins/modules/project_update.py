@@ -40,6 +40,7 @@ options:
       description:
         - If waiting for the project to update this will abort after this
           amount of seconds
+        - A value of 0 waits without a limit, the same as leaving it unset.
       type: int
 extends_documentation_fragment: ctrliq.ascender.auth
 '''

@@ -31,6 +31,7 @@ options:
     timeout:
       description:
         - Maximum time in seconds to wait for the workflow node to appear and its job to finish.
+        - A value of 0 waits without a limit.
       default: 10
       type: int
 extends_documentation_fragment: ctrliq.ascender.auth

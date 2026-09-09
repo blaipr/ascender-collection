@@ -70,7 +70,7 @@ This also speeds up the overall role.
 |`skip_tags`|""|no|str|Specific tags to skip from the playbook.|
 |`wait`|""|no|bool|Wait for the job to complete.|
 |`interval`|2|no|float|The interval to request an update from controller.|
-|`timeout`|""|no|int|If waiting for the jobs to complete this will abort after this amount of seconds.|
+|`timeout`|""|no|int|If waiting for the jobs to complete this will abort after this amount of seconds. A value of 0 waits without a limit.|
 
 ### Bulk Job Launch Sub Options
 
