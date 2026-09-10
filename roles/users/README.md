@@ -2,7 +2,7 @@
 
 ## Description
 
-An Ansible Role to add/update/remove users to on Ascender.
+An Ansible Role to add/update/remove users on Ascender.
 
 ## Requirements
 
