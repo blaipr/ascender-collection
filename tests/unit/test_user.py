@@ -13,8 +13,13 @@ from awx.main.models import User
 def mock_auth_stuff():
     """Some really specific session-related stuff is done for changing or setting
     passwords, so we will just avoid that here.
+
+    ctrliq/ascender 9b678968e1 split awx/api/serializers.py into a package, and its
+    __init__ re-exports the serializer classes rather than every name the module held.
+    update_session_auth_hash is not one of them, so it is reachable only in the module
+    that calls it, which is the name UserSerializer._update_password binds anyway.
     """
-    with mock.patch('awx.api.serializers.update_session_auth_hash'):
+    with mock.patch('awx.api.serializers.user.update_session_auth_hash'):
         yield
 
 
