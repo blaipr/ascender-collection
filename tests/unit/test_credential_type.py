@@ -4,7 +4,7 @@ __metaclass__ = type
 
 import pytest
 
-from awx.main.models import CredentialType
+from ascender.main.models import CredentialType
 
 
 @pytest.mark.django_db

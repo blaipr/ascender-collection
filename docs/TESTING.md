@@ -20,7 +20,7 @@ Let's take a closer look at the `test_token.py` file (which tests the `token` mo
 ```
 import pytest
 
-from awx.main.models import OAuth2AccessToken
+from ascender.main.models import OAuth2AccessToken
 
 
 @pytest.mark.django_db

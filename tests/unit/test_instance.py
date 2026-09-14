@@ -4,7 +4,7 @@ __metaclass__ = type
 
 import pytest
 
-from awx.main.models import Instance
+from ascender.main.models import Instance
 from django.test.utils import override_settings
 
 

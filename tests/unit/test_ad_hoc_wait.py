@@ -5,7 +5,7 @@ __metaclass__ = type
 import pytest
 from django.utils.timezone import now
 
-from awx.main.models.ad_hoc_commands import AdHocCommand
+from ascender.main.models.ad_hoc_commands import AdHocCommand
 
 
 @pytest.mark.django_db

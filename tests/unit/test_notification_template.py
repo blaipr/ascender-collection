@@ -4,7 +4,7 @@ __metaclass__ = type
 
 import pytest
 
-from awx.main.models import NotificationTemplate, Job
+from ascender.main.models import NotificationTemplate, Job
 
 
 def compare_with_encrypted(model_config, param_config):

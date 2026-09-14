@@ -201,7 +201,7 @@ jobs:
 
       - name: Run unit tests
         env:
-          DJANGO_SETTINGS_MODULE: awx.main.tests.settings_for_test
+          DJANGO_SETTINGS_MODULE: ascender.main.tests.settings_for_test
         run: |
           sudo install -d -o "$USER" -g "$USER" -m 0755 /var/log/tower
           pytest tests/unit/ -v --nomigrations --reuse-db

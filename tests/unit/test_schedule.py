@@ -6,7 +6,7 @@ import pytest
 
 from ansible.errors import AnsibleError
 
-from awx.main.models import JobTemplate, Schedule
+from ascender.main.models import JobTemplate, Schedule
 from awx.api.serializers import SchedulePreviewSerializer
 
 

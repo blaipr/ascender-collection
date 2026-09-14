@@ -4,7 +4,7 @@ __metaclass__ = type
 
 import pytest
 
-from awx.main.models import InstanceGroup, Organization, Inventory, InventorySource, Project
+from ascender.main.models import InstanceGroup, Organization, Inventory, InventorySource, Project
 
 
 @pytest.fixture

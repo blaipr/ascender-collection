@@ -4,7 +4,7 @@ __metaclass__ = type
 
 import pytest
 
-from awx.main.models import JobTemplate, WorkflowJobTemplate
+from ascender.main.models import JobTemplate, WorkflowJobTemplate
 
 
 # The backend supports these webhook services on job/workflow templates

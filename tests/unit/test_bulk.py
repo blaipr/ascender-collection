@@ -4,7 +4,7 @@ __metaclass__ = type
 
 import pytest
 
-from awx.main.models import WorkflowJob
+from ascender.main.models import WorkflowJob
 
 
 @pytest.mark.django_db

@@ -20,7 +20,7 @@ covers the development setup, testing, and PR guidelines.
 
 3. Unit tests need a checkout of the
    [Ascender](https://github.com/ctrliq/ascender) repo, since they import
-   models from `awx.main`:
+   models from `ascender.main`:
 
    ```bash
    pip install -r requirements.txt
@@ -47,7 +47,7 @@ ansible-test sanity --docker
 ### Unit tests
 
 ```bash
-DJANGO_SETTINGS_MODULE=awx.main.tests.settings_for_test \
+DJANGO_SETTINGS_MODULE=ascender.main.tests.settings_for_test \
   py.test tests/unit/ -v --timeout=120 --nomigrations --create-db
 ```
 

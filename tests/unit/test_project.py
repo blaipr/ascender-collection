@@ -4,7 +4,7 @@ __metaclass__ = type
 
 import pytest
 
-from awx.main.models import Project
+from ascender.main.models import Project
 
 
 @pytest.mark.django_db
@@ -28,7 +28,7 @@ def test_create_project(run_module, admin_user, organization, silence_warning):
 
 @pytest.mark.django_db
 def test_create_manual_project(run_module, admin_user, organization, mocker):
-    mocker.patch('awx.main.models.projects.Project.get_local_path_choices', return_value=['foo_folder/'])
+    mocker.patch('ascender.main.models.projects.Project.get_local_path_choices', return_value=['foo_folder/'])
     result = run_module(
         'project',
         dict(name='foo', organization=organization.name, scm_type='manual', local_path='foo_folder/', wait=False),
