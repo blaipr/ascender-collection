@@ -5,7 +5,7 @@ __metaclass__ = type
 import pytest
 import random
 
-from awx.main.models import Organization, Credential, CredentialType
+from ascender.main.models import Organization, Credential, CredentialType
 
 
 @pytest.mark.django_db

@@ -6,7 +6,7 @@ import random
 
 import pytest
 
-from awx.main.models import ActivityStream, JobTemplate, Job, NotificationTemplate, Label
+from ascender.main.models import ActivityStream, JobTemplate, Job, NotificationTemplate, Label
 
 
 @pytest.mark.django_db

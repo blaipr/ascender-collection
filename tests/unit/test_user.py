@@ -6,7 +6,7 @@ import pytest
 
 from unittest import mock
 
-from awx.main.models import User
+from ascender.main.models import User
 
 
 @pytest.fixture

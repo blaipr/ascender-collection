@@ -4,7 +4,7 @@ __metaclass__ = type
 
 import pytest
 
-from awx.main.models import OAuth2AccessToken
+from ascender.main.models import OAuth2AccessToken
 
 
 @pytest.mark.django_db

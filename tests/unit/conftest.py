@@ -28,9 +28,9 @@ from requests.models import Response, PreparedRequest
 import pytest
 
 
-from awx.main.tests.functional.conftest import _request
-from awx.main.tests.functional.conftest import credentialtype_scm, credentialtype_ssh  # noqa: F401; pylint: disable=unused-import
-from awx.main.models import (
+from ascender.main.tests.functional.conftest import _request
+from ascender.main.tests.functional.conftest import credentialtype_scm, credentialtype_ssh  # noqa: F401; pylint: disable=unused-import
+from ascender.main.models import (
     Organization,
     Project,
     Inventory,

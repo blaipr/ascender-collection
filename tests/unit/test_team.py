@@ -4,7 +4,7 @@ __metaclass__ = type
 
 import pytest
 
-from awx.main.models import Organization, Team
+from ascender.main.models import Organization, Team
 
 
 @pytest.mark.django_db

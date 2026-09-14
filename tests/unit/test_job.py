@@ -5,7 +5,7 @@ __metaclass__ = type
 import pytest
 from django.utils.timezone import now
 
-from awx.main.models import Job
+from ascender.main.models import Job
 
 
 @pytest.mark.django_db

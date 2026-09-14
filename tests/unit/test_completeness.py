@@ -2,7 +2,7 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 
-from awx.main.tests.functional.conftest import _request
+from ascender.main.tests.functional.conftest import _request
 import yaml
 import os
 import re

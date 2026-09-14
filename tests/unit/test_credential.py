@@ -4,7 +4,7 @@ __metaclass__ = type
 
 import pytest
 
-from awx.main.models import Credential, CredentialType, Organization
+from ascender.main.models import Credential, CredentialType, Organization
 
 
 @pytest.fixture

@@ -9,7 +9,7 @@ import sys
 import pytest
 import yaml
 
-from awx.main.models import Organization, Team, Project, Inventory
+from ascender.main.models import Organization, Team, Project, Inventory
 from requests.models import Response
 from unittest import mock
 
