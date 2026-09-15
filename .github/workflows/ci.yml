@@ -123,8 +123,12 @@ jobs:
     # settings_for_test in the ascender checkout points DATABASES at PostgreSQL on
     # 127.0.0.1:5432. It ran on SQLite until ctrliq/ascender 2c0160da71, which needed
     # no service, so this job never had one and every test that opens a connection
-    # errors out. The values below are the names settings_for_test falls back to when
-    # no AWX_TEST_DATABASE_* is set, which is why the test step needs no extra env.
+    # errors out.
+    #
+    # The test step names the credentials rather than relying on the fallbacks in
+    # settings_for_test matching what is started here. Those fallbacks moved from
+    # awx to ascender with the package rename and took this job red with them, in
+    # a way that reads as a broken test rather than a renamed default.
     services:
       postgres:
         image: postgres:15
@@ -202,6 +206,11 @@ jobs:
       - name: Run unit tests
         env:
           DJANGO_SETTINGS_MODULE: ascender.main.tests.settings_for_test
+          AWX_TEST_DATABASE_HOST: 127.0.0.1
+          AWX_TEST_DATABASE_PORT: "5432"
+          AWX_TEST_DATABASE_NAME: awx
+          AWX_TEST_DATABASE_USER: awx
+          AWX_TEST_DATABASE_PASSWORD: awxpass
         run: |
           sudo install -d -o "$USER" -g "$USER" -m 0755 /var/log/tower
           pytest tests/unit/ -v --nomigrations --reuse-db
