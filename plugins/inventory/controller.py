@@ -23,6 +23,7 @@ options:
             - Named URL slugs follow the syntax of "inventory_name++organization_name".
         type: raw
         env:
+            - name: ASCENDER_INVENTORY
             - name: CONTROLLER_INVENTORY
         required: True
     include_metadata:

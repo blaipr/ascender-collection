@@ -38,28 +38,28 @@ class ControllerModule(AnsibleModule):
     AUTH_ARGSPEC = dict(
         controller_host=dict(
             required=False,
-            fallback=(env_fallback, ['CONTROLLER_HOST']),
+            fallback=(env_fallback, ['ASCENDER_HOST', 'CONTROLLER_HOST']),
         ),
         controller_username=dict(
             required=False,
-            fallback=(env_fallback, ['CONTROLLER_USERNAME']),
+            fallback=(env_fallback, ['ASCENDER_USERNAME', 'CONTROLLER_USERNAME']),
         ),
         controller_password=dict(
             no_log=True,
             required=False,
-            fallback=(env_fallback, ['CONTROLLER_PASSWORD']),
+            fallback=(env_fallback, ['ASCENDER_PASSWORD', 'CONTROLLER_PASSWORD']),
         ),
         validate_certs=dict(
             type='bool',
             required=False,
-            fallback=(env_fallback, ['CONTROLLER_VERIFY_SSL']),
+            fallback=(env_fallback, ['ASCENDER_VERIFY_SSL', 'CONTROLLER_VERIFY_SSL']),
         ),
-        request_timeout=dict(type='float', required=False, fallback=(env_fallback, ['CONTROLLER_REQUEST_TIMEOUT'])),
+        request_timeout=dict(type='float', required=False, fallback=(env_fallback, ['ASCENDER_REQUEST_TIMEOUT', 'CONTROLLER_REQUEST_TIMEOUT'])),
         controller_oauthtoken=dict(
             type='raw',
             no_log=True,
             required=False,
-            fallback=(env_fallback, ['CONTROLLER_OAUTH_TOKEN']),
+            fallback=(env_fallback, ['ASCENDER_OAUTH_TOKEN', 'CONTROLLER_OAUTH_TOKEN']),
         ),
         controller_config_file=dict(
             type='path',
