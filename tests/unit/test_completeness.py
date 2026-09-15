@@ -33,7 +33,6 @@ no_endpoint_for_module = [
     'job_launch',
     'job_wait',
     'job_list',
-    'license',
     'ping',
     'receive',
     'send',
@@ -43,7 +42,6 @@ no_endpoint_for_module = [
     'workflow_template',
     'ad_hoc_command_wait',
     'ad_hoc_command_cancel',
-    'subscriptions',  # Subscription deals with config/subscriptions
 ]
 
 # Add modules with endpoints that are not at /api/v2

@@ -30,7 +30,6 @@ action_groups:
     - job_template
     - job_wait
     - label
-    - license
     - notification_template
     - organization
     - project
@@ -38,7 +37,6 @@ action_groups:
     - role
     - schedule
     - settings
-    - subscriptions
     - team
     - token
     - user

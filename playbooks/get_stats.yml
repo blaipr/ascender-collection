@@ -33,8 +33,6 @@
           - "{{ r_metrics['json']['awx_system_info'] }}"
           - "{{ r_metrics['json']['awx_job_templates_total'] }}"
           - "{{ r_metrics['json']['awx_workflow_job_templates_total'] }}"
-          - "{{ r_metrics['json']['awx_license_instance_total'] }}"
-          - "{{ r_metrics['json']['awx_license_instance_free'] }}"
 
     - name: Get users info
       ansible.builtin.uri:
@@ -80,25 +78,10 @@
       when: (((ansible_facts['date_time']['date'] | to_datetime('%Y-%m-%d')) - item_date).days) <= 30
       loop: "{{ temp_user_list | default([]) }}"
 
-    - name: Get subscription info
-      ansible.builtin.uri:
-        url: https://{{ controller_hostname }}/api/v2/settings/all/?format=json
-        method: GET
-        force_basic_auth: true
-        user: "{{ controller_username }}"
-        password: "{{ controller_password }}"
-        return_content: true
-        headers:
-          Content-Type: application/json
-        validate_certs: "{{ controller_validate_certs | bool }}"
-      register: r_subscription
-
     - name: Output
       ansible.builtin.debug:
         msg:
           - "Number of active users: {{ active_users | default([]) | length }}"
-          - "Number of subs: {{ r_metrics['json']['awx_license_instance_total']['samples'][0]['value'] }}"
-          - "Number of avalible subs: {{ r_metrics['json']['awx_license_instance_free']['samples'][0]['value'] }}"
           - "Number of orgs: {{ r_metrics['json']['awx_organizations_total']['samples'][0]['value'] }}"
           - "Number of users: {{ r_metrics['json']['awx_users_total']['samples'][0]['value'] }}"
           - "Number of teams: {{ r_metrics['json']['awx_teams_total']['samples'][0]['value'] }}"
@@ -109,6 +92,5 @@
           - "Number of hosts: {{ r_metrics['json']['awx_hosts_total']['samples'] }}"
           - "{{ r_metrics['json']['awx_status_total']['samples'] }}"
           - "{{ r_metrics['json']['awx_system_info']['samples'][0]['labels'] }}"
-          - "{{ r_subscription['json']['LICENSE'] }}"
 
 ...

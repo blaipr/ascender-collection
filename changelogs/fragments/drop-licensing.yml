@@ -1,0 +1,13 @@
+---
+breaking_changes:
+  - license module - Removed. It posted a Red Hat subscription manifest to ``/api/v2/config/`` and attached
+    a pool through ``config/attach``. Ascender has no subscription, the platform now answers the POST with
+    an error, and ``config/attach`` has no route at all, so every call the module could make already failed.
+  - subscriptions module - Removed. It read the subscriptions available to a Red Hat or Red Hat Satellite
+    account through ``config/subscriptions``, which the platform no longer serves.
+  - license role - Removed, along with its ``controller_license`` variable and the ``redhat_subscription_username``
+    and ``redhat_subscription_password`` lookups. It existed only to drive the two modules above.
+minor_changes:
+  - get_stats playbook - Stopped reading ``awx_license_instance_total`` and ``awx_license_instance_free``,
+    which counted subscription entitlements and are no longer exported, and dropped the settings request
+    that was registered as ``r_subscription`` to print a ``LICENSE`` setting that no longer exists.
