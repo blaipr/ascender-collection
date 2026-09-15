@@ -37,7 +37,6 @@ mock_modules:
   - ctrliq.ascender.job_template
   - ctrliq.ascender.job_wait
   - ctrliq.ascender.label
-  - ctrliq.ascender.license
   - ctrliq.ascender.notification_template
   - ctrliq.ascender.organization
   - ctrliq.ascender.project
@@ -45,7 +44,6 @@ mock_modules:
   - ctrliq.ascender.role
   - ctrliq.ascender.schedule
   - ctrliq.ascender.settings
-  - ctrliq.ascender.subscriptions
   - ctrliq.ascender.team
   - ctrliq.ascender.token
   - ctrliq.ascender.user
