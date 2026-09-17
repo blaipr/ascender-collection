@@ -25,14 +25,24 @@
         validate_certs: "{{ controller_validate_certs | bool }}"
       register: r_metrics
 
+    # The platform renamed every metric from awx_ to ascender_ when the package
+    # was renamed. Both are in the field at once: a release carrying the old
+    # names, and installs tracking main with the new ones. Picking the prefix
+    # off the payload means this playbook reads either without being told which,
+    # and a missing key here is a failed lookup rather than a wrong number.
+    - name: Determine the metric name prefix this platform uses
+      ansible.builtin.set_fact:
+        metric_prefix: "{{ 'ascender' if 'ascender_organizations_total' in r_metrics['json'] else 'awx' }}"
+
+
     - name: Debug metrics
       ansible.builtin.debug:
         verbosity: 1
         msg:
           - "{{ r_metrics }}"
-          - "{{ r_metrics['json']['awx_system_info'] }}"
-          - "{{ r_metrics['json']['awx_job_templates_total'] }}"
-          - "{{ r_metrics['json']['awx_workflow_job_templates_total'] }}"
+          - "{{ r_metrics['json'][metric_prefix ~ '_system_info'] }}"
+          - "{{ r_metrics['json'][metric_prefix ~ '_job_templates_total'] }}"
+          - "{{ r_metrics['json'][metric_prefix ~ '_workflow_job_templates_total'] }}"
 
     - name: Get users info
       ansible.builtin.uri:
@@ -82,15 +92,15 @@
       ansible.builtin.debug:
         msg:
           - "Number of active users: {{ active_users | default([]) | length }}"
-          - "Number of orgs: {{ r_metrics['json']['awx_organizations_total']['samples'][0]['value'] }}"
-          - "Number of users: {{ r_metrics['json']['awx_users_total']['samples'][0]['value'] }}"
-          - "Number of teams: {{ r_metrics['json']['awx_teams_total']['samples'][0]['value'] }}"
-          - "Number of inv: {{ r_metrics['json']['awx_inventories_total']['samples'][0]['value'] }}"
-          - "Number of projects: {{ r_metrics['json']['awx_projects_total']['samples'][0]['value'] }}"
-          - "Number of JT: {{ r_metrics['json']['awx_job_templates_total']['samples'][0]['value'] }}"
-          - "Number of workflows: {{ r_metrics['json']['awx_workflow_job_templates_total']['samples'][0]['value'] }}"
-          - "Number of hosts: {{ r_metrics['json']['awx_hosts_total']['samples'] }}"
-          - "{{ r_metrics['json']['awx_status_total']['samples'] }}"
-          - "{{ r_metrics['json']['awx_system_info']['samples'][0]['labels'] }}"
+          - "Number of orgs: {{ r_metrics['json'][metric_prefix ~ '_organizations_total']['samples'][0]['value'] }}"
+          - "Number of users: {{ r_metrics['json'][metric_prefix ~ '_users_total']['samples'][0]['value'] }}"
+          - "Number of teams: {{ r_metrics['json'][metric_prefix ~ '_teams_total']['samples'][0]['value'] }}"
+          - "Number of inv: {{ r_metrics['json'][metric_prefix ~ '_inventories_total']['samples'][0]['value'] }}"
+          - "Number of projects: {{ r_metrics['json'][metric_prefix ~ '_projects_total']['samples'][0]['value'] }}"
+          - "Number of JT: {{ r_metrics['json'][metric_prefix ~ '_job_templates_total']['samples'][0]['value'] }}"
+          - "Number of workflows: {{ r_metrics['json'][metric_prefix ~ '_workflow_job_templates_total']['samples'][0]['value'] }}"
+          - "Number of hosts: {{ r_metrics['json'][metric_prefix ~ '_hosts_total']['samples'] }}"
+          - "{{ r_metrics['json'][metric_prefix ~ '_status_total']['samples'] }}"
+          - "{{ r_metrics['json'][metric_prefix ~ '_system_info']['samples'][0]['labels'] }}"
 
 ...
