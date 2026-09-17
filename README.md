@@ -135,3 +135,5 @@ See [TESTING.md](./docs/TESTING.md) for full details.
 ## License
 
 Licensed under the **GNU General Public License v3.0 or later**. See [COPYING](./COPYING) for the full text.
+
+This collection incorporates code from upstream community projects. See [NOTICE.txt](./NOTICE.txt) for their attribution and licensing.

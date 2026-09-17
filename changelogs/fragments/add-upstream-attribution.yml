@@ -1,0 +1,7 @@
+minor_changes:
+  - Added a ``NOTICE.txt`` naming the upstream projects this collection
+    incorporates code from, ``redhat-cop/infra.aap_configuration``,
+    ``redhat-cop/aap_configuration_extended`` and the ``awx_collection``
+    directory of ``ansible/awx``, with the licence each is distributed under
+    and a note that the modifications are Ctrl IQ's. The file ships with the
+    built collection alongside ``COPYING``.
