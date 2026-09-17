@@ -1,0 +1,40 @@
+This collection includes software originally developed by other projects.
+All original code is copyright by its respective authors, named in the
+headers of the files themselves, and every upstream named below is licensed
+under the GNU General Public License v3.0 or later, the same licence this
+collection is distributed under (see /COPYING).
+
+Upstream projects
+-----------------
+
+  https://github.com/redhat-cop/infra.aap_configuration
+    Most of the roles, the playbooks and several of the plugins.
+    Formerly redhat-cop/infra.controller_configuration.
+    Licensed under the GNU General Public License v3.0 or later.
+
+  https://github.com/redhat-cop/aap_configuration_extended
+    The filetree_create, filetree_read and object_diff roles.
+    These were split out of infra.aap_configuration after they were
+    incorporated here, so they are no longer found in that repository.
+    Licensed under the GNU General Public License v3.0 or later.
+
+  https://github.com/ansible/awx
+    Most of the modules, from the awx_collection/ directory of that
+    repository. AWX as a whole is distributed under the Apache License 2.0,
+    but awx_collection/ carries its own COPYING and is licensed under the
+    GNU General Public License v3.0 or later, which is the part used here.
+
+Modifications
+-------------
+
+The incorporated code has been modified by Ctrl IQ, Inc. Those modifications
+are Copyright Ctrl IQ, Inc, and are distributed under the same GNU General
+Public License v3.0 or later as the originals.
+
+The modifications include renaming to Ascender terminology, changes to the
+module argument specifications where the platform's accepted values differ
+from those of AWX, and roles and modules written for this collection alone.
+
+Nothing here tracks its upstream automatically. A fix made upstream does not
+arrive in this collection until somebody ports it, and a ported fix names the
+upstream commit it came from in its own commit message.
