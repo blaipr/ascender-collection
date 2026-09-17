@@ -1,0 +1,6 @@
+bugfixes:
+  - get_stats playbook - read the metrics the platform actually exposes. Every
+    lookup named ``awx_*``, which the platform renamed to ``ascender_*`` along
+    with the package, so each one missed and the playbook reported nothing. The
+    prefix is now taken from the payload, so the playbook works against a
+    release carrying either set of names.
